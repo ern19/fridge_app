@@ -78,6 +78,36 @@ def viewDrinks
         puts "Fridge #{fridge_id} has #{drink.name}"
     end
 end
+
+def addADrink
+    puts "Which fridge?"
+    fridge_id = gets.chomp
+    puts "What is it?"
+    drink_name = gets.chomp
+    puts "How much?"
+    drink_size = gets.chomp.to_i
+    Drink.create(name: "#{drink_name}", size: "#{drink_size}", fridge_id: "#{fridge_id}")
+end
+
+def drinkPartOfADrink
+    viewDrinks
+    puts "Whatcha drinkin?"
+    drink = gets.chomp
+    user_is_drinking = Drink.where("name = '#{drink}'")
+    puts "You grabbed '#{user_is_drinking.name}'. How much do you drink? (in oz)"
+    how_much = gets.chomp.to_i
+    how_much_is_left = user_is_drinking.size - how_much 
+    user_is_drinking.update(size: "#{how_much_is_left}")
+end
+
+def chugADrink
+    viewDrinks
+    puts "Whatcha drinking?"
+    drink = gets.chomp
+    user_is_drinking = Drink.where("name = '#{drink}'")
+    puts "You chugged '#{user_is_drinking.name}'. Slow down, broseph"
+    user_is_drinking.destroy_all
+end
 puts my_str
 user_decision = gets.chomp
 user_decision = user_decision.to_i
@@ -108,4 +138,16 @@ end
 
 if user_decision == 7
     viewDrinks
+end
+
+if user_decision == 8 
+    addADrink
+end
+
+if user_decision == 9
+    drinkPartOfADrink
+end
+
+if user_decision == 10
+    chugADrink
 end
